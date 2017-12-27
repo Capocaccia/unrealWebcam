@@ -18,10 +18,9 @@ function getVideo(){
 function paintToCanvas(){
 	const width = video.videoWidth;
 	const height = video.videoHeight;
-	canvas.width = `${width}px`;
-	canvas.height = `${height}px`;
-	console.log(width)
-	console.log(height);
+	canvas.width = width;
+	canvas.height = height;
+
 	return setInterval(() => {
 		ctx.drawImage(video, 0, 0, width, height);
 
@@ -30,6 +29,9 @@ function paintToCanvas(){
 
 		//mess width them
 		pixels = redEffect(pixels);
+
+		//ghosting mode
+		//ctx.globlaAlpha = 0.1;
 
 		//put them back
 		ctx.putImageData(pixels, 0, 0)
@@ -53,6 +55,34 @@ function rgbSplit(pixels){
 	}
 	return pixels;
 }
+
+function greenScreen(pixels) {
+  const levels = {};
+
+  document.querySelectorAll('.rgb input').forEach((input) => {
+    levels[input.name] = input.value;
+  });
+
+  for (i = 0; i < pixels.data.length; i = i + 4) {
+    red = pixels.data[i + 0];
+    green = pixels.data[i + 1];
+    blue = pixels.data[i + 2];
+    alpha = pixels.data[i + 3];
+
+    if (red >= levels.rmin
+      && green >= levels.gmin
+      && blue >= levels.bmin
+      && red <= levels.rmax
+      && green <= levels.gmax
+      && blue <= levels.bmax) {
+      // take it out!
+      pixels.data[i + 3] = 0;
+    }
+  }
+
+  return pixels;
+}
+
 
 function takePhoto(){
 	//played the sound
