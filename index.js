@@ -18,15 +18,40 @@ function getVideo(){
 function paintToCanvas(){
 	const width = video.videoWidth;
 	const height = video.videoHeight;
-	console.log(width);
-	console.log(height);
 	canvas.width = `${width}px`;
 	canvas.height = `${height}px`;
 	console.log(width)
 	console.log(height);
 	return setInterval(() => {
 		ctx.drawImage(video, 0, 0, width, height);
+
+		//get all the pixels
+		let pixels = ctx.getImageData(0, 0, width, height);
+
+		//mess width them
+		pixels = redEffect(pixels);
+
+		//put them back
+		ctx.putImageData(pixels, 0, 0)
 	}, 16)
+}
+
+function redEffect(pixels){
+	for(let i = 0; i < pixels.data.length; i += 4){
+		pixels[i] = pixels.data[i + 0] + 100;
+		pixels[i + 1] = pixels.data[i + 1] - 50;
+		pixels[i + 2] = pixels.data[i + 2] * 0.5;
+	}
+	return pixels;
+}
+
+function rgbSplit(pixels){
+	for(let i = 0; i < pixels.data.length; i += 4){
+		pixels[i - 150] = pixels.data[i + 0];
+		pixels[i + 150] = pixels.data[i + 1];
+		pixels[i - 150] = pixels.data[i + 2];
+	}
+	return pixels;
 }
 
 function takePhoto(){
