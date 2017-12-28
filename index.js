@@ -40,18 +40,18 @@ function paintToCanvas(){
 
 function redEffect(pixels){
 	for(let i = 0; i < pixels.data.length; i += 4){
-		pixels[i] = pixels.data[i + 0] + 100;
-		pixels[i + 1] = pixels.data[i + 1] - 50;
-		pixels[i + 2] = pixels.data[i + 2] * 0.5;
+		pixels.data[i] = pixels.data[i + 0] + 100;
+		pixels.data[i + 1] = pixels.data[i + 1] - 50;
+		pixels.data[i + 2] = pixels.data[i + 2] * 0.5;
 	}
 	return pixels;
 }
 
 function rgbSplit(pixels){
 	for(let i = 0; i < pixels.data.length; i += 4){
-		pixels[i - 150] = pixels.data[i + 0];
-		pixels[i + 150] = pixels.data[i + 1];
-		pixels[i - 150] = pixels.data[i + 2];
+		pixels.data[i - 150] = pixels.data[i + 0];
+		pixels.data[i + 150] = pixels.data[i + 1];
+		pixels.data[i - 150] = pixels.data[i + 2];
 	}
 	return pixels;
 }
