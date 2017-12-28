@@ -41,6 +41,10 @@ html {
   Strip!
 */
 
+.rgb {
+  display: none;
+}
+
 .strip {
   padding:2rem;
 }
